@@ -105,7 +105,7 @@ const RegisterPage = () => {
           <p className="text-small-regular text-light-2 text-center mt-1">
             already have an account?
             <Link
-              to="/login"
+              to="/auth/login"
               className="text-primary-500 text-small-semibold ml-2 underline"
             >
               login

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import {
   Bell,
   CircleUser,
@@ -27,13 +27,13 @@ const DashboardLayout = () => {
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link
+            <NavLink
               to="/dashboard"
               className="flex items-center gap-2 font-semibold"
             >
               <Package2 className="h-6 w-6" />
               <span>Coder's Book</span>
-            </Link>
+            </NavLink>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
               <span className="sr-only">Toggle notifications</span>
@@ -41,21 +41,21 @@ const DashboardLayout = () => {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
+              <NavLink
                 to="/dashboard"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-slate-100 transition-all"
               >
                 <Home className="h-4 w-4" />
                 Home
-              </Link>
+              </NavLink>
 
-              <Link
+              <NavLink
                 to="/dashboard/books"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-slate-100"
               >
                 <Package className="h-4 w-4" />
                 Books{" "}
-              </Link>
+              </NavLink>
             </nav>
           </div>
         </div>
@@ -76,28 +76,28 @@ const DashboardLayout = () => {
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
-                <Link
+                <NavLink
                   to="/dashboard"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">Coder's Book</span>
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/dashboard"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2  hover:bg-slate-100"
                 >
                   <Home className="h-5 w-5" />
                   Home
-                </Link>
+                </NavLink>
 
-                <Link
+                <NavLink
                   to="/dashboard/books"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2  hover:bg-slate-100"
                 >
                   <Package className="h-5 w-5" />
                   Books
-                </Link>
+                </NavLink>
               </nav>
             </SheetContent>
           </Sheet>

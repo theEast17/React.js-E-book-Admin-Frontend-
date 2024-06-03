@@ -81,7 +81,7 @@ const LoginPage = () => {
           <p className="text-small-regular text-light-2 text-center mt-1">
             don't have an account?
             <Link
-              to="/register"
+              to="/auth/register"
               className="text-primary-500 text-small-semibold ml-2 underline"
             >
               Register
