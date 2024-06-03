@@ -13,6 +13,7 @@ import { loginData } from "@/http/api";
 import { loginSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -89,9 +90,14 @@ const LoginPage = () => {
             )}
           />
 
-          <Button type="submit" className="w-full">Submit</Button>
+          <Button type="submit" className="w-full" disabled={mutation.isPending}>
+           
+            Submit
+            {mutation.isPending && <LoaderCircle className="animate-spin ml-2 text-slate-400"/>}
+            </Button>
           <p className="text-small-regular text-light-2 text-center mt-1">
             don't have an account?
+        
             <Link
               to="/auth/register"
               className="text-primary-500 text-small-semibold ml-2 underline"
