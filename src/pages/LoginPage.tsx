@@ -26,7 +26,8 @@ const LoginPage = () => {
   });
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values)
+    const {email,password}=values
+    
   }
 
   return (
