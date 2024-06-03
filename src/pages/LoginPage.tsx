@@ -9,14 +9,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { loginData } from "@/http/api";
 import { loginSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 
 const LoginPage = () => {
+  const navigate=useNavigate()
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,9 +28,17 @@ const LoginPage = () => {
     },
   });
 
+  const mutation=useMutation({
+    mutationFn:loginData,
+    onSuccess:()=>{
+      navigate('/dashboard')
+    }
+  })
+
   function onSubmit(values: z.infer<typeof loginSchema>) {
     const {email,password}=values
-    
+    mutation.mutate({email,password})
+
   }
 
   return (
