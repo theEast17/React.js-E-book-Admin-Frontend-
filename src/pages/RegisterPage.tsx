@@ -9,35 +9,57 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/schema";
+import { registerSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
-
-const LoginPage = () => {
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+const RegisterPage = () => {
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values)
+  function onSubmit(values: z.infer<typeof registerSchema>) {
+    console.log(values);
   }
 
   return (
-    <section className="h-screen w-full flex justify-center items-center bg-slate-300" >
-      <Form {...form} >
-        <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white space-y-4 rounded-xl p-6 shadow-custom "  >
-          <h1 className="text-2xl font-bold">Login</h1>
+    <section className="h-screen w-full flex justify-center items-center bg-slate-300">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="bg-white space-y-4 rounded-xl p-6 shadow-custom "
+        >
+          <h1 className="text-2xl font-bold">Sign Up</h1>
 
           <FormDescription>
-            Enter your email below to login to your account.
+            Enter your information below to create account.
           </FormDescription>
+
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Enter your username"
+                    {...field}
+                    autoComplete="off"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
@@ -77,14 +99,16 @@ const LoginPage = () => {
             )}
           />
 
-          <Button type="submit" className="w-full">Submit</Button>
+          <Button type="submit" className="w-full">
+            Submit
+          </Button>
           <p className="text-small-regular text-light-2 text-center mt-1">
-            don't have an account?
+            already have an account?
             <Link
-              to="/register"
+              to="/login"
               className="text-primary-500 text-small-semibold ml-2 underline"
             >
-              Register
+              login
             </Link>
           </p>
         </form>
@@ -93,4 +117,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
