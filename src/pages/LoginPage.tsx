@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginData } from "@/http/api";
 import { loginSchema } from "@/schema";
+import useTokenStore from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
@@ -29,12 +30,17 @@ const LoginPage = () => {
     },
   });
 
+  const setToken=useTokenStore((state)=>state.setToken)
+
   const mutation=useMutation({
     mutationFn:loginData,
-    onSuccess:()=>{
+    onSuccess:(response)=>{
+      setToken(response.data.accessToken)
       navigate('/dashboard')
     }
   })
+
+
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
     const {email,password}=values
