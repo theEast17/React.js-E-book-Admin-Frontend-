@@ -9,24 +9,38 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { registerData } from "@/http/api";
 import { registerSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const RegisterPage = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values);
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: registerData,
+    onSuccess: () => {
+      navigate("/auth/login");
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
+    const { name, email, password } = values;
+    mutation.mutate({ name, email, password });
+    
   }
 
   return (
@@ -37,6 +51,9 @@ const RegisterPage = () => {
           className="bg-white space-y-4 rounded-xl p-6 shadow-custom "
         >
           <h1 className="text-2xl font-bold">Sign Up</h1>
+           {mutation.isError && (
+            <span className="text-red-500 font-semibold text-sm">{mutation.error.response.data.message}</span>
+          )}
 
           <FormDescription>
             Enter your information below to create account.
@@ -44,7 +61,7 @@ const RegisterPage = () => {
 
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
@@ -99,8 +116,15 @@ const RegisterPage = () => {
             )}
           />
 
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending}
+          >
             Submit
+            {mutation.isPending && (
+              <LoaderCircle className="animate-spin ml-2 text-slate-400" />
+            )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-1">
             already have an account?

@@ -48,6 +48,10 @@ const LoginPage = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white space-y-4 rounded-xl p-6 shadow-custom "  >
           <h1 className="text-2xl font-bold">Login</h1>
 
+          {mutation.isError && (
+            <span className="text-red-500 font-semibold text-sm">{mutation.error.response.data.message}</span>
+          )}
+
           <FormDescription>
             Enter your email below to login to your account.
           </FormDescription>
