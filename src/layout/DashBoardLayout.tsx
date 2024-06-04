@@ -16,18 +16,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useTokenStore from "@/store";
 
 const DashboardLayout = () => {
 
-  const Token=useTokenStore((state)=>state.token)
+  const {token,setToken}=useTokenStore((state)=>state)
   
-  if(Token === ''){
+  if(token === ''){
     return <Navigate to={'/auth/login'} replace/>
+  }
+
+  const logout=()=>{
+    setToken('')
   }
 
   return (
@@ -130,12 +132,8 @@ const DashboardLayout = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>My Account</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
