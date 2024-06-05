@@ -21,16 +21,15 @@ import {
 import useTokenStore from "@/store";
 
 const DashboardLayout = () => {
+  const { token, setToken } = useTokenStore((state) => state);
 
-  const {token,setToken}=useTokenStore((state)=>state)
-  
-  if(token === ''){
-    return <Navigate to={'/auth/login'} replace/>
+  if (token === "") {
+    return <Navigate to={"/auth/login"} replace />;
   }
 
-  const logout=()=>{
-    setToken('')
-  }
+  const logout = () => {
+    setToken("");
+  };
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -38,7 +37,7 @@ const DashboardLayout = () => {
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <NavLink
-              to="/dashboard"
+              to="/dashboard/home"
               className="flex items-center gap-2 font-semibold"
             >
               <Package2 className="h-6 w-6" />
@@ -52,8 +51,12 @@ const DashboardLayout = () => {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <NavLink
-                to="/dashboard"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-slate-100 transition-all"
+                to="/dashboard/home"
+                className={({ isActive }) => {
+                  return `flex items-center gap-3 rounded-lg px-3 py-2 hover:text-primary text-muted-foreground transition-all ${
+                    isActive && "bg-muted"
+                  }`;
+                }}
               >
                 <Home className="h-4 w-4" />
                 Home
@@ -61,7 +64,11 @@ const DashboardLayout = () => {
 
               <NavLink
                 to="/dashboard/books"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-slate-100"
+                className={({ isActive }) => {
+                  return `flex items-center gap-3 rounded-lg px-3 py-2 hover:text-primary text-muted-foreground transition-all ${
+                    isActive && "bg-muted"
+                  }`;
+                }}
               >
                 <Package className="h-4 w-4" />
                 Books{" "}
@@ -87,14 +94,14 @@ const DashboardLayout = () => {
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
                 <NavLink
-                  to="/dashboard"
+                  to="/dashboard/home"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">Coder's Book</span>
                 </NavLink>
                 <NavLink
-                  to="/dashboard"
+                  to="/dashboard/home"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2  hover:bg-slate-100"
                 >
                   <Home className="h-5 w-5" />
