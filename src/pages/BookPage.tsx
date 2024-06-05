@@ -38,6 +38,7 @@ import { SkeletonDemo } from "@/skeleton/Skeleton";
 import { Book } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const BookPage = () => {
   const { data, isLoading, isError } = useQuery({
@@ -45,6 +46,8 @@ const BookPage = () => {
     queryFn: getBooks,
     staleTime: 10000,
   });
+
+  const navigate=useNavigate()
 
 
   function formatDate(dateString:string) {
@@ -80,7 +83,7 @@ const BookPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-          <Button size="sm" className="h-8 gap-1">
+          <Button size="sm" className="h-8 gap-1" onClick={()=>navigate('/dashboard/books/create')}>
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               Add Product
@@ -91,7 +94,6 @@ const BookPage = () => {
       <Tabs defaultValue="all">
         <TabsContent value="all">
           <Card x-chunk="dashboard-06-chunk-0">
-
             <CardHeader>
               <CardTitle>Products</CardTitle>
               <CardDescription>
