@@ -32,8 +32,23 @@ export const registerData = async (data: {
 export const getBooks = async () => {
   return api.get("/books");
 };
+
+export const deleteBooks = async (bookId:string) => {
+  return api.delete(`/books/${bookId}`);
+};
+
+
 export const createBooks = async (data: FormData) => {
   return api.post("/books/create",data,{
+    headers:{
+      'Content-Type':'multipart/form-data'
+    }
+  });
+};
+
+
+export const editBooks = async (data: FormData,bookId:string) => {
+  return api.post(`/books/update/${bookId}`,data,{
     headers:{
       'Content-Type':'multipart/form-data'
     }

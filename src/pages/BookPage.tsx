@@ -1,3 +1,4 @@
+import Alert from "@/alertBox/Alert";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
@@ -19,7 +20,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -47,12 +47,12 @@ const BookPage = () => {
     staleTime: 10000,
   });
 
-  const navigate=useNavigate()
 
+
+  const navigate=useNavigate()
 
   function formatDate(dateString:string) {
     const date = new Date(dateString);
-  
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
@@ -62,9 +62,7 @@ const BookPage = () => {
       second: '2-digit',
       hour12: true
     };
-  
     const formattedTime = date.toLocaleTimeString('en-US', options);
-  
     return `${formattedTime}`;
   }
 
@@ -161,8 +159,8 @@ const BookPage = () => {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            <Button variant={'ghost'} className="w-full text-zinc-600 font-normal">Edit</Button>
+                            <Alert bookId={book._id}/> 
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -177,6 +175,10 @@ const BookPage = () => {
                 Showing <strong>1-5</strong> of <strong>{data?.data.length}</strong> products
               </div>
             </CardFooter>}
+
+            {/* <Alert/> */}
+
+
           </Card>
         </TabsContent>
       </Tabs>
