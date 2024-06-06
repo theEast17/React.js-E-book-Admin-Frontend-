@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { deleteBooks } from "@/http/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
@@ -34,8 +33,8 @@ const Alert = ({bookId}:AlertProps) => {
     }
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="border-0 w-full outline-none hover:bg-muted transition-all">
-      <Button variant={'ghost'} className="w-full text-zinc-600 font-normal">Delete</Button>
+      <AlertDialogTrigger className="w-full">
+      <p className="border-0 p-2 rounded-lg w-full outline-none hover:bg-muted transition-all">Delete</p>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

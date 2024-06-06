@@ -44,140 +44,155 @@ const BookPage = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["books"],
     queryFn: getBooks,
-    staleTime: 10000,
   });
 
+ 
 
+  const navigate = useNavigate();
 
-  const navigate=useNavigate()
-
-  function formatDate(dateString:string) {
+  function formatDate(dateString: string) {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
     };
-    const formattedTime = date.toLocaleTimeString('en-US', options);
+    const formattedTime = date.toLocaleTimeString("en-US", options);
     return `${formattedTime}`;
   }
-
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <div className="flex items-center justify-between">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard/home">Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Books</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-          <Button size="sm" className="h-8 gap-1" onClick={()=>navigate('/dashboard/books/create')}>
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
-        </div>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/dashboard/home">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Books</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Button
+          size="sm"
+          className="h-8 gap-1"
+          onClick={() => navigate("/dashboard/books/create")}
+        >
+          <PlusCircle className="h-3.5 w-3.5" />
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            Add Product
+          </span>
+        </Button>
+      </div>
 
       <Tabs defaultValue="all">
         <TabsContent value="all">
           <Card x-chunk="dashboard-06-chunk-0">
             <CardHeader>
-              <CardTitle>Products</CardTitle>
-              <CardDescription>
-                Manage your products and view their sales performance.
-              </CardDescription>
+              <CardTitle>Books</CardTitle>
+              <CardDescription>Manage your books here.</CardDescription>
             </CardHeader>
 
-           {isError ? <h1 className="text-center text-red-500">Error while fetching books.</h1> : <CardContent>
-             {isLoading ? <SkeletonDemo/> : <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
-                      <span className="sr-only">Image</span>
-                    </TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Genre</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Author Name
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Created at
-                    </TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="hide-scrollbar">
-                  {data?.data?.map((book: Book) => (
-                    <TableRow key={book._id}>
-                      <TableCell className="hidden sm:table-cell">
-                        <img
-                          alt={book.title}
-                          className="aspect-square rounded-md object-cover"
-                          height="64"
-                          src={book.coverImage}
-                          width="64"
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium capitalize">
-                        {book.title}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{book.genre}</Badge>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {book.author?.name}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {
-                        formatDate(book.createdAt)
-                        }
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <Button variant={'ghost'} className="w-full text-zinc-600 font-normal">Edit</Button>
-                            <Alert bookId={book._id}/> 
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>}
-            </CardContent>}
+            { data?.data.length === 0 ? <h1 className="text-center text-red-500 font-bold mb-3">There is no book in the inventory</h1> :  isError ? (
+              <h1 className="text-center text-red-500">
+                Error while fetching books.
+              </h1>
+            ) : (
+              <CardContent>
+                {isLoading ? (
+                  <SkeletonDemo />
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="hidden w-[100px] sm:table-cell">
+                          <span className="sr-only">Image</span>
+                        </TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Genre</TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Author Name
+                        </TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Created at
+                        </TableHead>
+                        <TableHead>
+                          <span className="sr-only">Actions</span>
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody className="hide-scrollbar">
+                      {data?.data?.map((book: Book) => (
+                        <TableRow key={book._id}>
+                          <TableCell className="hidden sm:table-cell">
+                            <img
+                              alt={book.title}
+                              className="aspect-square rounded-md object-cover"
+                              height="64"
+                              src={book.coverImage}
+                              width="64"
+                            />
+                          </TableCell>
+                          <TableCell className="font-medium capitalize">
+                            {book.title}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{book.genre}</Badge>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {book.author?.name}
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {formatDate(book.createdAt)}
+                          </TableCell>
+                          <TableCell>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  aria-haspopup="true"
+                                  size="icon"
+                                  variant="ghost"
+                                >
+                                  <MoreHorizontal className="h-4 w-4" />
+                                  <span className="sr-only">Toggle menu</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <p
+                                  className="border-0 p-2 text-center rounded-lg cursor-pointer w-full outline-none hover:bg-muted transition-all"
+                                  onClick={() => navigate(`update/${book._id}`)}
+                                >
+                                  Edit
+                                </p>
 
-           {!isLoading && <CardFooter>
-              <div className="text-xs text-muted-foreground">
-                Showing <strong>1-5</strong> of <strong>{data?.data.length}</strong> products
-              </div>
-            </CardFooter>}
+                                {/* delete */}
+                                <Alert bookId={book._id} />
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </CardContent>
+            )}
 
-            {/* <Alert/> */}
-
+            {!isLoading && (
+              <CardFooter>
+                <div className="text-xs text-muted-foreground">
+                  Showing <strong>1-5</strong> of{" "}
+                  <strong>{data?.data.length}</strong> products
+                </div>
+              </CardFooter>
+            )}
 
           </Card>
         </TabsContent>

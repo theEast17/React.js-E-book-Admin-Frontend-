@@ -32,7 +32,7 @@ import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+
 
 const CreateBook = () => {
   const form = useForm<z.infer<typeof bookSchema>>({
@@ -49,7 +49,6 @@ const CreateBook = () => {
   const PdfRef=form.register('BookPdf')
 
   const queryClient=useQueryClient()
-  const {toast}=useToast()
 
   const mutation = useMutation({
     mutationFn: createBooks,
@@ -60,7 +59,7 @@ const CreateBook = () => {
   });
 
   async function onSubmit(values: z.infer<typeof bookSchema>) {
-    // const {Title,Genre,Description,CoverImage,BookPdf}=values;
+
     const formdata = new FormData();
     formdata.append('title', values.Title);
     formdata.append('genre', values.Genre);
@@ -70,11 +69,6 @@ const CreateBook = () => {
 
     mutation.mutate(formdata);
 
-    toast({
-      description:'added book'
-    })
-
-    console.log(values)
   }
 
 
@@ -101,7 +95,7 @@ const CreateBook = () => {
 
       <Card x-chunk="dashboard-06-chunk-0">
         <CardHeader>
-          <CardTitle>Books</CardTitle>
+          <CardTitle>Create a Book</CardTitle>
           <CardDescription>
             Fill out the form below to create a new book.
           </CardDescription>

@@ -9,13 +9,13 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((config)=>{
-  const token=useTokenStore.getState().token;
-  if(token){
-    config.headers.Authorization=`Bearer ${token}`
+api.interceptors.request.use((config) => {
+  const token = useTokenStore.getState().token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-  return config
-})
+  return config;
+});
 
 export const loginData = async (data: { email: string; password: string }) => {
   return api.post("/users/login", data);
@@ -33,24 +33,32 @@ export const getBooks = async () => {
   return api.get("/books");
 };
 
-export const deleteBooks = async (bookId:string) => {
+export const deleteBooks = async (bookId: string) => {
   return api.delete(`/books/${bookId}`);
 };
 
-
 export const createBooks = async (data: FormData) => {
-  return api.post("/books/create",data,{
-    headers:{
-      'Content-Type':'multipart/form-data'
-    }
+  return api.post("/books/create", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
+export const getBookById = async (id: string) => {
+  return api.get(`/books/${id}`);
+};
 
-export const editBooks = async (data: FormData,bookId:string) => {
-  return api.post(`/books/update/${bookId}`,data,{
-    headers:{
-      'Content-Type':'multipart/form-data'
-    }
+export const editBooks = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: FormData;
+}) => {
+  return api.put(`/books/update/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
